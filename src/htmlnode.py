@@ -19,3 +19,37 @@ class HTMLNode():
     def __repr__(self):
         numChildren = len(self.children)
         return f"HTMLNode: tag='{self.tag}';\nvalue='{self.value}';\nnumber of children={numChildren};\nprops='{self.props_to_html()}'"
+
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props = None):
+        super().__init__(tag, value, children=None, props=props)
+    
+    def to_html(self):
+        if not self.value:
+            raise ValueError('LeafNode has no value.')
+        if not self.tag:
+            return self.value
+        html_props = self.props_to_html()
+        if not html_props:
+            html_props = ""
+
+        return f"<{self.tag}{html_props}>{self.value}</{self.tag}>"
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props = None):
+        super().__init__(tag, value=None, children=children, props=props)
+
+    def to_html(self):
+        if not self.tag:
+            return ValueError('ParentNode is missing a tag.')
+        if not self.children:
+            return ValueError('Parent node does not have any children.')
+        html_children = []
+        for child in self.children:
+            html_children.append(child.to_html())
+        html_children = "".join(html_children)
+        html_props = self.props_to_html()
+        if not html_props:
+            html_props = ""
+        return f"<{self.tag}{html_props}>{html_children}</{self.tag}>"
+        
