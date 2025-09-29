@@ -27,7 +27,7 @@ This is the same paragraph on a new line
         md = '''
 
 
-\t *This is a header after unneeded spacing.
+\t #This is a header after unneeded spacing.
 
 This is plain text. \t
 
@@ -37,3 +37,12 @@ This is plain text. \t
 - Should be a pretty serious test.
 
 '''
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "#This is a header after unneeded spacing.",
+                "This is plain text.",
+                "- This is an unordered list.\n- This a list item.\n- Should be a pretty serious test.",
+            ],
+        )

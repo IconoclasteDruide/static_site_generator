@@ -51,5 +51,6 @@ class ParentNode(HTMLNode):
         html_props = self.props_to_html()
         if not html_props:
             html_props = ""
-        return f"<{self.tag}{html_props}>{html_children}</{self.tag}>"
+        html_tag = f'{self.tag}'
+        return f"<{html_tag}{html_props}>{html_children}</{html_tag}>"
         

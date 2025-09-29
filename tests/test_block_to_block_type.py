@@ -26,7 +26,7 @@ class TestBlockToBlockType(unittest.TestCase):
     def test_block_to_block_type4(self):
         block = '### Purpose of the Speech Act'
         b_type = block_to_block_type(block)
-        self.assertEqual(BlockType.HEAD, b_type)
+        self.assertEqual(f'{BlockType.HEAD}3', b_type)
 
     def test_block_to_block_type5(self):
         block = '>Thus _He_ declared all foods clean. (NASB1995)'
