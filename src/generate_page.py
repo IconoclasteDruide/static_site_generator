@@ -1,3 +1,5 @@
+import os
+
 from src.markdown_to_html_node import markdown_to_html_node
 from src.extract_title import extract_title
 
@@ -13,6 +15,11 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(md_text)
 
     full_html = template_text.replace('{{ Title }}', title).replace('{{ Content }}', html_content)
+
+    dest_dir = os.path.dirname(dest_path)
+    if not os.path.isdir(dest_dir):
+        os.makedirs(dest_dir, 0o755)
+
 
     with open(dest_path, "w") as file:
         file.write(full_html)

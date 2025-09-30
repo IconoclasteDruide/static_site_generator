@@ -3,6 +3,7 @@ from shutil import copy, rmtree
 
 def static_to_public(source_dir, dest_dir):
     old_dest = os.listdir(dest_dir)
+    print(old_dest)
     if len(old_dest):
         for path in old_dest:
             full_path = os.path.join(dest_dir, path)
