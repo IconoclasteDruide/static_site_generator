@@ -61,3 +61,14 @@ Followed by an important
         self.assertEqual(html, 
             "<div><blockquote>Someone important said something important.</blockquote><ol><li>list</li><li>listing</li><li>items</li></ol></div>"
             )
+    def test_blocks_with_single_text(self):
+        md = """# **This is a bold header**
+
+- This is a list where whole items are a single text node
+- [nhl.com](https://nhl.com)
+- _italics are for cools_"""
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(html, 
+            '<div><h1><b>This is a bold header</b></h1><ul><li>This is a list where whole items are a single text node</li><li><a href="https://nhl.com">nhl.com</a></li><li><i>italics are for cools</i></li></ul></div>'
+            )

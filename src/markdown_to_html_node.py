@@ -6,6 +6,8 @@ from src.markdown_to_blocks import markdown_to_blocks
 from src.block_into_children import block_into_children
 from src.list_into_children import list_into_children
 
+from src.test_for_single_plain_html_node import is_single_plain_html_node
+
 def markdown_to_html_node(markdown: str) -> ParentNode:
     blocks = markdown_to_blocks(markdown)
     new_nodes = []
@@ -21,24 +23,24 @@ def markdown_to_html_node(markdown: str) -> ParentNode:
                 new_nodes.append(new_node)
             case BlockType.PARA:
                 children = block_into_children(block)
-                if len(children) == 1:
-                    new_node = LeafNode(block_type, block.replace('\n', ' '))
+                if is_single_plain_html_node(children):
+                    new_node = LeafNode(block_type, children[0].value)
                 else:
                     new_node = ParentNode(block_type, children)
                 new_nodes.append(new_node)
             case BlockType.QUOTE :
                 block = block.lstrip('>').lstrip()
                 children = block_into_children(block)
-                if len(children) == 1:
-                    new_node = LeafNode(block_type, block.replace('\n', ' '))
+                if is_single_plain_html_node(children):
+                    new_node = LeafNode(block_type, children[0].value)
                 else:
                     new_node = ParentNode(block_type, children)
                 new_nodes.append(new_node)
             case 'h1'|'h2'|'h3'|'h4'|'h5'|'h6':
                 block = block.lstrip('#').lstrip()
                 children = block_into_children(block)
-                if len(children) == 1:
-                    new_node = LeafNode(block_type, block.replace('\n', ' '))
+                if is_single_plain_html_node(children):
+                    new_node = LeafNode(block_type, children[0].value)
                 else:
                     new_node = ParentNode(block_type, children)
                 new_nodes.append(new_node)

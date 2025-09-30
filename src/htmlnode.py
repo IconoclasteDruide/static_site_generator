@@ -17,7 +17,10 @@ class HTMLNode():
         return to_html_attribute
     
     def __repr__(self):
-        numChildren = len(self.children)
+        if self.children:
+            numChildren = len(self.children)
+        else:
+            numChildren = 0
         return f"HTMLNode: tag='{self.tag}';\nvalue='{self.value}';\nnumber of children={numChildren};\nprops='{self.props_to_html()}'"
 
 class LeafNode(HTMLNode):
@@ -25,8 +28,6 @@ class LeafNode(HTMLNode):
         super().__init__(tag, value, children=None, props=props)
     
     def to_html(self):
-        if not self.value:
-            raise ValueError('LeafNode has no value.')
         if not self.tag:
             return self.value
         html_props = self.props_to_html()
