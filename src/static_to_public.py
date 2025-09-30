@@ -2,6 +2,8 @@ import os
 from shutil import copy, rmtree
 
 def static_to_public(source_dir, dest_dir):
+    if not os.path.isdir(dest_dir):
+        os.mkdir(dest_dir, 0o755)
     old_dest = os.listdir(dest_dir)
     print(old_dest)
     if len(old_dest):
