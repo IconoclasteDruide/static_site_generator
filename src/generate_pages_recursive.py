@@ -3,7 +3,7 @@ import os
 from src.markdown_to_html_node import markdown_to_html_node
 from src.extract_title import extract_title
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     content_paths = os.listdir(dir_path_content)
     for path in content_paths:
         full_src_path = os.path.join(dir_path_content, path)
@@ -17,7 +17,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
                 template_text = file.read()
             html_content = markdown_to_html_node(md_text).to_html()
             title = extract_title(md_text)
-            full_html = template_text.replace('{{ Title }}', title).replace('{{ Content }}', html_content)
+            full_html = template_text.replace('{{ Title }}', title).replace('{{ Content }}', html_content).replace('href="/', f'href="{basepath}').replace('src="/', f'src="{basepath}')
 
             if not os.path.isdir(dest_dir_path):
                 os.makedirs(dest_dir_path, 0o755)
@@ -26,5 +26,5 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
                 file.write(full_html)
 
         elif os.path.isdir(full_src_path):
-            generate_pages_recursive(full_src_path, template_path, full_dst_path)
+            generate_pages_recursive(full_src_path, template_path, full_dst_path, basepath)
         
